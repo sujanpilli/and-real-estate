@@ -121,9 +121,9 @@ Open **[http://localhost:5173](http://localhost:5173)** (or the Vite console URL
 
 ---
 
-## 🌐 Production Deployment (Neon, Render, Cloudinary)
+## 🌐 Production Deployment (Neon, Render, Cloudflare Pages, Cloudinary)
 
-You can easily deploy this application to production using **Neon** (serverless PostgreSQL database) and **Render** (FastAPI backend + Vite frontend static hosting) with **Cloudinary** for image uploads.
+You can easily deploy this application to production using **Neon** (serverless PostgreSQL database), **Render** (FastAPI backend), and **Cloudflare Pages** (Vite frontend client static hosting) with **Cloudinary** for image uploads.
 
 ### 1. Database Setup on Neon
 1. Create a free account at **[Neon.tech](https://neon.tech)** and create a new project.
@@ -134,23 +134,34 @@ You can easily deploy this application to production using **Neon** (serverless 
 1. Create a free account at **[Cloudinary](https://cloudinary.com)**.
 2. Copy your **Cloud Name**, **API Key**, and **API Secret** from the dashboard.
 
-### 3. Deploy to Render (One-Click)
+### 3. Deploy Backend to Render
 This repository includes a `render.yaml` Blueprint definition file. You can deploy it automatically by creating a new **Blueprint** workspace inside **Render**:
 
 1. Go to your **[Render Dashboard](https://dashboard.render.com)**.
 2. Click **New +** and select **Blueprint**.
 3. Connect your GitHub repository.
-4. Render will read the `render.yaml` file and configure:
-   - **`and-real-estate-backend`**: FastAPI Python Web Service.
-   - **`and-real-estate-frontend`**: Vite Static Site (automatically pointing to backend host).
+4. Render will read the `render.yaml` file and configure **`and-real-estate-backend`** (FastAPI Python Web Service).
 5. In the **Blueprint parameters** setup screen, fill in:
    - `DATABASE_URL`: Paste your Neon connection string.
    - `CLOUDINARY_CLOUD_NAME`: Your Cloudinary Cloud Name.
    - `CLOUDINARY_API_KEY`: Your Cloudinary API Key.
    - `CLOUDINARY_API_SECRET`: Your Cloudinary API Secret.
-6. Click **Approve** and let Render deploy both services.
+6. Click **Approve** and let Render deploy the service.
 
-### 4. Database Migrations & Seeding in Production
+### 4. Deploy Frontend to Cloudflare Pages
+1. Go to your **[Cloudflare Dashboard](https://dash.cloudflare.com/)** and navigate to **Workers & Pages**.
+2. Click **Create** and select **Pages** -> **Connect to Git**.
+3. Connect your GitHub repository.
+4. Configure the Build settings:
+   - **Framework Preset**: `Vite` (or select `React`)
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+   - **Root directory**: `frontend`
+5. In the build environment variables section, add:
+   - `VITE_API_URL`: Set this to your deployed Render backend API URL (e.g., `https://and-real-estate-backend.onrender.com/api/v1`).
+6. Click **Save and Deploy**. Cloudflare Pages will host the React frontend statically for free!
+
+### 5. Database Migrations & Seeding in Production
 Once the backend service is deployed, you need to run migrations to set up the PostgreSQL tables.
 
 Open the **Render Console** for your backend service (`and-real-estate-backend`) and run:
@@ -163,6 +174,5 @@ If you wish to seed initial data into the production database:
 ```bash
 # Run seed script
 PYTHONPATH=. python backend/seed.py
-test
 ```
 

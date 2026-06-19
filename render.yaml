@@ -16,20 +16,3 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-
-  # 2. React Frontend Static Site (Free hosting)
-  - type: web
-    name: and-real-estate-frontend
-    runtime: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html # Redirects non-file requests to index.html for React router support
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          name: and-real-estate-backend
-          type: web
-          property: host
