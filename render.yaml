@@ -22,10 +22,10 @@ services:
     name: and-real-estate-frontend
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
-    publishDir: frontend/dist
+    staticPublishPath: frontend/dist
     routes:
       - type: rewrite
-        path: /*
+        source: /*
         destination: /index.html # Redirects non-file requests to index.html for React router support
     envVars:
       - key: VITE_API_URL
