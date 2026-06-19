@@ -3,7 +3,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AND Real Estate"
-    DATABASE_URL: str = "postgresql+asyncpg://user:password@localhost:5432/and_real_estate"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./database.sqlite"
     
     SECRET_KEY: str = "secret-key-for-development-only"
     ALGORITHM: str = "HS256"

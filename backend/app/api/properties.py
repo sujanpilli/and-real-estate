@@ -6,13 +6,33 @@ from backend.app.schemas.property import Property, PropertyCreate, PropertyUpdat
 from backend.app.api.auth import get_current_admin
 from backend.app.models.admin import Admin
 from backend.app.services.cloudinary import CloudinaryService
-from typing import List
+from typing import List, Optional
 
 router = APIRouter(prefix="/properties", tags=["properties"])
 
 @router.get("/", response_model=List[Property])
-async def get_properties(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
-    return await PropertyService.get_all(db, skip, limit)
+async def get_properties(
+    skip: int = 0, 
+    limit: int = 100, 
+    property_type: Optional[str] = None,
+    location: Optional[str] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    bedrooms: Optional[int] = None,
+    sortBy: Optional[str] = None,
+    db: AsyncSession = Depends(get_db)
+):
+    return await PropertyService.get_all(
+        db, 
+        skip=skip, 
+        limit=limit,
+        property_type=property_type,
+        location=location,
+        min_price=min_price,
+        max_price=max_price,
+        bedrooms=bedrooms,
+        sortBy=sortBy
+    )
 
 @router.get("/featured", response_model=List[Property])
 async def get_featured_properties(db: AsyncSession = Depends(get_db)):

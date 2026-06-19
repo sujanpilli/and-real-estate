@@ -2,11 +2,19 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="py-16 bg-slate-900 text-white">
+    <footer className="py-16 bg-slate-900 text-white border-t border-slate-800">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <h3 className="text-4xl font-bold mb-8">
-          Contact Us
-        </h3>
+        <div className="flex flex-col items-center mb-8">
+          <img 
+            src="/images/logo.png" 
+            alt="AND Real Estate" 
+            className="h-16 w-auto rounded bg-white p-1 mb-3" 
+          />
+          <h3 className="text-3xl font-extrabold tracking-tight">
+            AND Real Estate
+          </h3>
+          <p className="text-gray-400 text-xs mt-1 uppercase tracking-widest">Luxury Property Est. 2021</p>
+        </div>
 
         <div className="flex flex-col gap-6 items-center">
           <div className="flex items-center gap-3 text-lg">

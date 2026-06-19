@@ -67,23 +67,23 @@ const PropertyForm = ({ initialData, isEdit = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm transition-colors duration-300">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Property Title</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Property Title</label>
           <input 
             {...register('title')}
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900" 
+            className="w-full border border-slate-200 dark:border-slate-800 bg-transparent dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all" 
             placeholder="e.g. Luxury 3BHK Villa"
           />
           {errors.title && <p className="text-red-500 text-xs">{errors.title.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Property Type</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Property Type</label>
           <select 
             {...register('property_type')}
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all"
           >
             <option value="Plot">Plot</option>
             <option value="House">House</option>
@@ -92,67 +92,67 @@ const PropertyForm = ({ initialData, isEdit = false }) => {
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Display Price</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Display Price</label>
           <input 
             {...register('price')}
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900" 
+            className="w-full border border-slate-200 dark:border-slate-800 bg-transparent dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all" 
             placeholder="e.g. ₹45 Lakhs"
           />
           {errors.price && <p className="text-red-500 text-xs">{errors.price.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-semibold">Numeric Price (for filtering)</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Numeric Price (for filtering)</label>
           <input 
             {...register('price_value', { valueAsNumber: true })}
             type="number"
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900" 
+            className="w-full border border-slate-200 dark:border-slate-800 bg-transparent dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all" 
           />
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold">Location</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Location</label>
           <input 
             {...register('location')}
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900" 
+            className="w-full border border-slate-200 dark:border-slate-800 bg-transparent dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all" 
             placeholder="e.g. Ongole, Andhra Pradesh"
           />
           {errors.location && <p className="text-red-500 text-xs">{errors.location.message}</p>}
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-semibold">Description</label>
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Description</label>
           <textarea 
             {...register('description')}
             rows="4"
-            className="w-full border border-slate-200 px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-slate-900" 
+            className="w-full border border-slate-200 dark:border-slate-800 bg-transparent dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all" 
             placeholder="Detailed property information..."
           ></textarea>
           {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
         </div>
 
         <div className="flex gap-8 md:col-span-2">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" {...register('featured')} className="w-4 h-4 rounded" />
+          <label className="flex items-center gap-2 cursor-pointer text-slate-800 dark:text-slate-200">
+            <input type="checkbox" {...register('featured')} className="w-4 h-4 rounded text-slate-900 dark:text-yellow-400 border-slate-350 dark:border-slate-800 focus:ring-slate-900 dark:focus:ring-yellow-400" />
             <span className="text-sm font-semibold">Featured Property</span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer text-red-600">
-            <input type="checkbox" {...register('is_sold')} className="w-4 h-4 rounded" />
+          <label className="flex items-center gap-2 cursor-pointer text-red-600 dark:text-red-400">
+            <input type="checkbox" {...register('is_sold')} className="w-4 h-4 rounded text-red-500 border-slate-350 dark:border-slate-800 focus:ring-red-500" />
             <span className="text-sm font-semibold">Mark as Sold</span>
           </label>
         </div>
       </div>
 
       <div className="space-y-4">
-        <label className="text-sm font-semibold">Property Images</label>
+        <label className="text-sm font-semibold text-slate-850 dark:text-slate-200">Property Images</label>
         <ImageUpload images={images} setImages={setImages} />
       </div>
 
-      <div className="pt-6 border-t border-slate-100 flex justify-end">
+      <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-end">
         <button 
           type="submit" 
           disabled={loading}
-          className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-colors disabled:opacity-70"
+          className="bg-slate-900 dark:bg-yellow-400 text-white dark:text-slate-950 px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-yellow-300 transition-colors disabled:opacity-70 cursor-pointer"
         >
           {loading ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
           {isEdit ? 'Update Property' : 'Save Property'}

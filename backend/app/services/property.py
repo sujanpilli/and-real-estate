@@ -9,13 +9,47 @@ from sqlalchemy.orm import selectinload
 
 class PropertyService:
     @staticmethod
-    async def get_all(db: AsyncSession, skip: int = 0, limit: int = 100) -> List[Property]:
-        result = await db.execute(
-            select(Property)
-            .options(selectinload(Property.images))
-            .offset(skip)
-            .limit(limit)
-        )
+    async def get_all(
+        db: AsyncSession, 
+        skip: int = 0, 
+        limit: int = 100,
+        property_type: Optional[str] = None,
+        location: Optional[str] = None,
+        min_price: Optional[float] = None,
+        max_price: Optional[float] = None,
+        bedrooms: Optional[int] = None,
+        sortBy: Optional[str] = None
+    ) -> List[Property]:
+        stmt = select(Property).options(selectinload(Property.images))
+        
+        if property_type and property_type.lower() != 'all':
+            stmt = stmt.where(Property.property_type == property_type)
+        
+        if location:
+            stmt = stmt.where(Property.location.ilike(f"%{location}%"))
+            
+        if min_price is not None:
+            stmt = stmt.where(Property.price_value >= min_price)
+            
+        if max_price is not None:
+            stmt = stmt.where(Property.price_value <= max_price)
+            
+        if bedrooms is not None:
+            if bedrooms >= 4:
+                stmt = stmt.where(Property.bedrooms >= 4)
+            else:
+                stmt = stmt.where(Property.bedrooms == bedrooms)
+                
+        if sortBy == 'price_asc':
+            stmt = stmt.order_by(Property.price_value.asc())
+        elif sortBy == 'price_desc':
+            stmt = stmt.order_by(Property.price_value.desc())
+        elif sortBy == 'area_desc':
+            stmt = stmt.order_by(Property.area_sqft.desc())
+        else:
+            stmt = stmt.order_by(Property.id.desc())
+            
+        result = await db.execute(stmt.offset(skip).limit(limit))
         return result.scalars().all()
 
     @staticmethod
