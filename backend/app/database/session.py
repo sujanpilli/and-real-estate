@@ -2,7 +2,16 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import DeclarativeBase
 from backend.app.core.config import settings
 
-engine = create_async_engine(settings.DATABASE_URL, echo=True)
+if settings.DATABASE_URL.startswith("sqlite"):
+    engine = create_async_engine(settings.DATABASE_URL, echo=True)
+else:
+    # Production connection settings for Neon serverless PostgreSQL
+    engine = create_async_engine(
+        settings.DATABASE_URL,
+        echo=True,
+        pool_pre_ping=True,
+        pool_recycle=300
+    )
 
 async_session = async_sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False

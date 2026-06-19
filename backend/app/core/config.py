@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Optional
+from pydantic import model_validator
+from typing import Optional, Any
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "AND Real Estate"
@@ -13,6 +14,18 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: Optional[str] = None
     CLOUDINARY_API_SECRET: Optional[str] = None
     
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    @model_validator(mode="before")
+    @classmethod
+    def assemble_db_url(cls, data: Any) -> Any:
+        if isinstance(data, dict):
+            db_url = data.get("DATABASE_URL")
+            if db_url:
+                if db_url.startswith("postgres://"):
+                    data["DATABASE_URL"] = db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+                elif db_url.startswith("postgresql://"):
+                    data["DATABASE_URL"] = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return data
 
 settings = Settings()

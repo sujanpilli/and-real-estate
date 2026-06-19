@@ -1,0 +1,35 @@
+services:
+  # 1. FastAPI Backend Web Service
+  - type: web
+    name: and-real-estate-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false # Set this to Neon PostgreSQL connection URL in Render console
+      - key: SECRET_KEY
+        generateValue: true # Generates a secure random JWT signing key automatically
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false # Configure these for Cloudinary image uploads
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+  # 2. React Frontend Static Site (Free hosting)
+  - type: web
+    name: and-real-estate-frontend
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    publishDir: frontend/dist
+    routes:
+      - type: rewrite
+        path: /*
+        destination: /index.html # Redirects non-file requests to index.html for React router support
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: and-real-estate-backend
+          type: web
+          property: host

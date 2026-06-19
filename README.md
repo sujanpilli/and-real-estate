@@ -118,3 +118,50 @@ Open **[http://localhost:5173](http://localhost:5173)** (or the Vite console URL
 - `POST /api/v1/inquiries/` - Submit a new customer lead inquiry (stored in DB)
 - `POST /api/v1/auth/login` - Authenticate admin credentials and retrieve JWT bearer token
 - `GET /api/v1/auth/me` - Get information of currently logged in Administrator
+
+---
+
+## 🌐 Production Deployment (Neon, Render, Cloudinary)
+
+You can easily deploy this application to production using **Neon** (serverless PostgreSQL database) and **Render** (FastAPI backend + Vite frontend static hosting) with **Cloudinary** for image uploads.
+
+### 1. Database Setup on Neon
+1. Create a free account at **[Neon.tech](https://neon.tech)** and create a new project.
+2. Choose **PostgreSQL** as the database engine.
+3. Copy the **Connection String** from the Neon Console (starts with `postgres://` or `postgresql://`).
+
+### 2. Image Hosting on Cloudinary
+1. Create a free account at **[Cloudinary](https://cloudinary.com)**.
+2. Copy your **Cloud Name**, **API Key**, and **API Secret** from the dashboard.
+
+### 3. Deploy to Render (One-Click)
+This repository includes a `render.yaml` Blueprint definition file. You can deploy it automatically by creating a new **Blueprint** workspace inside **Render**:
+
+1. Go to your **[Render Dashboard](https://dashboard.render.com)**.
+2. Click **New +** and select **Blueprint**.
+3. Connect your GitHub repository.
+4. Render will read the `render.yaml` file and configure:
+   - **`and-real-estate-backend`**: FastAPI Python Web Service.
+   - **`and-real-estate-frontend`**: Vite Static Site (automatically pointing to backend host).
+5. In the **Blueprint parameters** setup screen, fill in:
+   - `DATABASE_URL`: Paste your Neon connection string.
+   - `CLOUDINARY_CLOUD_NAME`: Your Cloudinary Cloud Name.
+   - `CLOUDINARY_API_KEY`: Your Cloudinary API Key.
+   - `CLOUDINARY_API_SECRET`: Your Cloudinary API Secret.
+6. Click **Approve** and let Render deploy both services.
+
+### 4. Database Migrations & Seeding in Production
+Once the backend service is deployed, you need to run migrations to set up the PostgreSQL tables.
+
+Open the **Render Console** for your backend service (`and-real-estate-backend`) and run:
+```bash
+# Run database migrations to create PostgreSQL tables
+alembic upgrade head
+```
+
+If you wish to seed initial data into the production database:
+```bash
+# Run seed script
+PYTHONPATH=. python backend/seed.py
+```
+

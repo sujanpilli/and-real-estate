@@ -8,7 +8,7 @@ const Footer = () => {
           <img 
             src="/images/logo.png" 
             alt="AND Real Estate" 
-            className="h-16 w-auto rounded bg-white p-1 mb-3" 
+            className="h-16 w-16 object-cover rounded-full bg-white p-1 mb-3" 
           />
           <h3 className="text-3xl font-extrabold tracking-tight">
             AND Real Estate

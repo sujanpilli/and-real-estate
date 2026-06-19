@@ -45,7 +45,7 @@ const Navbar = () => {
           <img 
             src="/images/logo.png" 
             alt="AND Real Estate" 
-            className="h-10 w-auto rounded bg-white p-0.5 group-hover:scale-105 transition-transform duration-200" 
+            className="h-10 w-10 object-cover rounded-full bg-white p-0.5 group-hover:scale-105 transition-transform duration-200" 
           />
           <span className="text-xl font-bold tracking-tight hover:text-yellow-400 transition-colors hidden sm:block">
             AND Real Estate
