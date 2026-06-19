@@ -163,5 +163,6 @@ If you wish to seed initial data into the production database:
 ```bash
 # Run seed script
 PYTHONPATH=. python backend/seed.py
+test
 ```
 
