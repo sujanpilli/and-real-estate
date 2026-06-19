@@ -10,6 +10,7 @@ class Property(Base):
     title: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(Text)
     property_type: Mapped[str] = mapped_column(String(50)) # Plot, House, Warehouse
+    category: Mapped[str] = mapped_column(String(50), default="sale") # sale or rent
     price: Mapped[str] = mapped_column(String(100)) # e.g. "₹15 Lakhs"
     price_value: Mapped[float] = mapped_column(Float, nullable=True) # numeric for sorting
     

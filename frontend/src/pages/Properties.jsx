@@ -12,6 +12,7 @@ const Properties = () => {
   const showFavsParam = searchParams.get('favorites') === 'true';
 
   const [filters, setFilters] = useState({
+    category: 'sale',
     location: '',
     type: '',
     priceRange: '',
@@ -46,6 +47,7 @@ const Properties = () => {
     const params = {
       sortBy: filters.sortBy
     };
+    if (filters.category) params.category = filters.category;
     if (filters.location) params.location = filters.location;
     if (filters.type) params.property_type = filters.type;
     if (filters.bedrooms) params.bedrooms = Number(filters.bedrooms);
@@ -75,6 +77,7 @@ const Properties = () => {
 
   const handleReset = () => {
     setFilters({
+      category: 'sale',
       location: '',
       type: '',
       priceRange: '',
@@ -94,8 +97,34 @@ const Properties = () => {
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Header Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <h2 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Properties Catalog</h2>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+          <div>
+            <h2 className="text-4xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Properties Catalog</h2>
+            
+            {/* Category Segmented Control */}
+            <div className="flex bg-slate-200/60 dark:bg-slate-900/80 p-1 rounded-xl w-fit mt-4 border border-slate-150 dark:border-slate-800">
+              <button 
+                onClick={() => setFilters(prev => ({ ...prev, category: 'sale' }))}
+                className={`px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200 cursor-pointer ${
+                  filters.category === 'sale' 
+                    ? 'bg-white dark:bg-slate-800 shadow-xs text-slate-900 dark:text-yellow-400' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'
+                }`}
+              >
+                For Sale
+              </button>
+              <button 
+                onClick={() => setFilters(prev => ({ ...prev, category: 'rent' }))}
+                className={`px-5 py-2 rounded-lg text-sm font-bold transition-all duration-200 cursor-pointer ${
+                  filters.category === 'rent' 
+                    ? 'bg-white dark:bg-slate-800 shadow-xs text-slate-900 dark:text-yellow-400' 
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-850 dark:hover:text-slate-200'
+                }`}
+              >
+                For Rent
+              </button>
+            </div>
+          </div>
           
           <button
             onClick={() => {

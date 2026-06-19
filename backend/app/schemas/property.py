@@ -19,6 +19,7 @@ class PropertyBase(BaseModel):
     title: str
     description: str
     property_type: str
+    category: str = "sale"
     price: str
     price_value: Optional[float] = None
     location: str
@@ -39,6 +40,7 @@ class PropertyUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     property_type: Optional[str] = None
+    category: Optional[str] = None
     price: Optional[str] = None
     price_value: Optional[float] = None
     location: Optional[str] = None

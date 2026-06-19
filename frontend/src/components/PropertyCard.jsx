@@ -45,8 +45,17 @@ const PropertyCard = ({ property }) => {
           alt={title}
           className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-4 left-4 bg-slate-900/80 backdrop-blur-xs text-white px-3 py-1 rounded-full text-xs font-semibold">
-          {property_type}
+        <div className="absolute top-4 left-4 flex gap-2">
+          <span className="bg-slate-900/80 backdrop-blur-xs text-white px-3 py-1 rounded-full text-xs font-semibold">
+            {property_type}
+          </span>
+          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+            property.category === 'rent' 
+              ? 'bg-purple-600/90 text-white' 
+              : 'bg-green-650/90 text-white'
+          }`}>
+            For {property.category === 'rent' ? 'Rent' : 'Sale'}
+          </span>
         </div>
         
         {/* Favorite Floating Button */}

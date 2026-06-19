@@ -98,9 +98,18 @@ const PropertyDetails = () => {
           </Link>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
-              <span className="bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                {property.property_type}
-              </span>
+              <div className="flex gap-2">
+                <span className="bg-yellow-400 text-slate-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                  {property.property_type}
+                </span>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  property.category === 'rent' 
+                    ? 'bg-purple-600 text-white' 
+                    : 'bg-green-650 text-white'
+                }`}>
+                  For {property.category === 'rent' ? 'Rent' : 'Sale'}
+                </span>
+              </div>
               <h1 className="text-4xl md:text-5xl font-black mt-4 tracking-tight">{property.title}</h1>
               <div className="flex items-center gap-2 text-slate-400 mt-2">
                 <MapPin size={20} />

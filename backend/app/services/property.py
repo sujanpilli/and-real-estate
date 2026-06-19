@@ -14,6 +14,7 @@ class PropertyService:
         skip: int = 0, 
         limit: int = 100,
         property_type: Optional[str] = None,
+        category: Optional[str] = None,
         location: Optional[str] = None,
         min_price: Optional[float] = None,
         max_price: Optional[float] = None,
@@ -24,6 +25,9 @@ class PropertyService:
         
         if property_type and property_type.lower() != 'all':
             stmt = stmt.where(Property.property_type == property_type)
+            
+        if category and category.lower() != 'all':
+            stmt = stmt.where(Property.category == category)
         
         if location:
             stmt = stmt.where(Property.location.ilike(f"%{location}%"))

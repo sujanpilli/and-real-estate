@@ -49,6 +49,7 @@ const AdminPropertyList = () => {
               <tr>
                 <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider">Property</th>
                 <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider">Type</th>
+                <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider">Category</th>
                 <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider">Price</th>
                 <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-4 text-sm font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
@@ -72,6 +73,15 @@ const AdminPropertyList = () => {
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-sm text-gray-600 font-medium">{property.property_type}</span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`px-2 py-1 text-xs font-bold rounded-full uppercase ${
+                      property.category === 'rent' 
+                        ? 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300' 
+                        : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                    }`}>
+                      {property.category === 'rent' ? 'Rent' : 'Sale'}
+                    </span>
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-sm font-bold text-slate-900">{property.price}</span>

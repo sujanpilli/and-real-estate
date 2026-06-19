@@ -12,6 +12,7 @@ const propertySchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters'),
   description: z.string().min(20, 'Description must be at least 20 characters'),
   property_type: z.enum(['Plot', 'House', 'Warehouse']),
+  category: z.enum(['sale', 'rent']),
   price: z.string().min(1, 'Price is required'),
   price_value: z.number().min(0),
   location: z.string().min(1, 'Location is required'),
@@ -31,6 +32,7 @@ const PropertyForm = ({ initialData, isEdit = false }) => {
     resolver: zodResolver(propertySchema),
     defaultValues: initialData || {
       property_type: 'Plot',
+      category: 'sale',
       price_value: 0,
       featured: false,
       is_sold: false
@@ -88,6 +90,17 @@ const PropertyForm = ({ initialData, isEdit = false }) => {
             <option value="Plot">Plot</option>
             <option value="House">House</option>
             <option value="Warehouse">Warehouse</option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">Category</label>
+          <select 
+            {...register('category')}
+            className="w-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 dark:text-slate-100 px-4 py-2 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-yellow-400 transition-all"
+          >
+            <option value="sale">For Sale</option>
+            <option value="rent">For Rent</option>
           </select>
         </div>
 
