@@ -22,10 +22,24 @@ class Settings(BaseSettings):
         if isinstance(data, dict):
             db_url = data.get("DATABASE_URL")
             if db_url:
-                if db_url.startswith("postgres://"):
-                    data["DATABASE_URL"] = db_url.replace("postgres://", "postgresql+asyncpg://", 1)
-                elif db_url.startswith("postgresql://"):
-                    data["DATABASE_URL"] = db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+                # Remove query parameters that asyncpg doesn't support as keyword arguments
+                from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+                parsed = urlparse(db_url)
+                query_params = parse_qs(parsed.query)
+                query_params.pop("sslmode", None)
+                query_params.pop("channel_binding", None)
+                new_query = urlencode(query_params, doseq=True)
+                parsed_list = list(parsed)
+                parsed_list[4] = new_query
+                cleaned_url = urlunparse(parsed_list)
+                
+                # Replace protocol with asyncpg equivalent
+                if cleaned_url.startswith("postgres://"):
+                    cleaned_url = cleaned_url.replace("postgres://", "postgresql+asyncpg://", 1)
+                elif cleaned_url.startswith("postgresql://"):
+                    cleaned_url = cleaned_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+                
+                data["DATABASE_URL"] = cleaned_url
         return data
 
 settings = Settings()
